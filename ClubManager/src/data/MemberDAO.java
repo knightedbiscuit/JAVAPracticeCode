@@ -7,7 +7,7 @@ import model.Member;
 
 public interface MemberDAO {
 
-	public void createMember(Member m) throws DAOException;
+	public void insertMember(Member m) throws DAOException;
 	
 	public void updateMember(Member m) throws DAOException;
 	

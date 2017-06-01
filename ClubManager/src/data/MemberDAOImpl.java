@@ -17,7 +17,7 @@ public class MemberDAOImpl implements MemberDAO {
 	private static final String INSERT_MEMBER = "INSERT INTO "+dbConstants.DB_NAME + "." + dbConstants.TABLE_MEMBER+" "
 	+"(MemberID, Surname, FirstName, SecondName)"+" "+ "Values(?,?,?,?)";
 
-	public Connection ConnectAttempt() {
+	private Connection ConnectAttempt() {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -82,16 +82,27 @@ public class MemberDAOImpl implements MemberDAO {
 		return null;
 	}
 
-	public void createMember(Member m) throws DAOException {
+	public void insertMember(Member m) throws DAOException {
 		Connection conn = ConnectAttempt();
 		
 		try {
+			System.out.println(INSERT_MEMBER);
 			PreparedStatement ps = conn.prepareStatement(INSERT_MEMBER);
-			
-			
-			
+			ps.setInt(1, m.getMemberNumber());
+			ps.setString(2, m.getSurname());
+			ps.setString(3, m.getFirstname());
+			ps.setString(4, m.getSecondname());
+			ps.executeUpdate();
+			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally
+		{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 	}
